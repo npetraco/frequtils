@@ -15,7 +15,7 @@ update_frequtils <- function() {
 
 #' Test f
 #'
-#' Test f
+#' Test func
 #'
 #' @param XX The XX
 #' @return The function will XX

@@ -13,5 +13,5 @@ testerf()
 The function will XX
 }
 \description{
-Test f
+Test func
 }
