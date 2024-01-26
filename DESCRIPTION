@@ -7,9 +7,14 @@ Maintainer: <npetraco@gmail.com>
 Description: Some handy data and convenience functions to help out with problems in frequentist courses.
 License: GPL-3
 Imports: remotes (>= 2.4.2.1),
-         extraDistr (>= 1.0.0)
+         extraDistr (>= 1.0.0),
+         tolerance (>= 2.0.0),
+         outliers (>= 0.15),
+         EnvStats (>= 2.8.1)
 Depends: remotes (>= 2.4.2.1),
-         extraDistr (>= 1.0.0)
+         extraDistr (>= 1.0.0),
+         outliers (>= 0.15),
+         EnvStats (>= 2.8.1)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.2
