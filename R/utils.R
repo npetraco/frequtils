@@ -9,6 +9,19 @@
 #' @export
 update_frequtils <- function() {
   print("Updating frequtils")
-  devtools::install_github("npetraco/frequtils")
+  remotes::install_github("npetraco/frequtils", force=T)
   print("Done!")
+}
+
+#' Test f
+#'
+#' Test f
+#'
+#' @param XX The XX
+#' @return The function will XX
+#'
+#'
+#' @export
+testerf <- function() {
+  print("I'm alive!")
 }
