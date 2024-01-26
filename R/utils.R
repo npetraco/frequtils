@@ -12,16 +12,3 @@ update_frequtils <- function() {
   remotes::install_github("npetraco/frequtils", force=T)
   print("Done!")
 }
-
-#' Test f
-#'
-#' Test f
-#'
-#' @param XX The XX
-#' @return The function will XX
-#'
-#'
-#' @export
-testerf <- function() {
-  print("I'm alive!")
-}
