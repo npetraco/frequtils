@@ -3,4 +3,5 @@
 export(shedder.donor.boxplot)
 export(shedder.extract.data)
 export(shedder.summary.extract.data)
+export(tmts)
 export(update_frequtils)
