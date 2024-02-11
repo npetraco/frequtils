@@ -205,3 +205,105 @@ two.sample.bs.hyp.for.pop.compare <- function(A.samp, B.samp, confidence=0.95, a
   print(paste0("Reject H0 in favor of Ha?:     ", asl<alpha ))
 
 }
+
+
+#' Plot a bootstrapped sample with CIs and observed sample statistic.
+#'
+#' Plot a bootstrapped sample with CIs and observed sample statistic
+#'
+#' @param XX   A bootstrap sample
+#' @return The function will XX
+#'
+#'
+#' @export
+bs.plot.with.obs.statistic <- function(dat.bs, obs.statistic, confidence=0.95, alternative="two.sided", two.sided.ref=NULL, aslQ=F, xlim.marg=0.1) {
+
+  num.B <- length(dat.bs)
+
+  # Set up limits for bs histogram:
+  # If the sample statistic falls in the range of the bootstrapped values, we can plot things as normal
+  # If not, this is needed to keep the sample statistic AND the bs distribution in frame in case they are far apart
+  left.limQ  <- (obs.statistic > min(dat.bs)) # Is the sample statistic larger than the smallest bootstrapped value?
+  right.limQ <- (obs.statistic < max(dat.bs)) # Is the sample statistic smaller than the largest bootstrapped value?
+
+  # Compute CIs at the stipulated level of confidence abd (if requested) the ASLs:
+  alpha <- 1 - confidence
+  if(alternative == "two.sided"){
+    # Determine CI:
+    bs.samp.CI <- quantile(dat.bs, probs = c(alpha/2, 1-alpha/2))
+
+    if(aslQ == T){
+      # Compute ASL:
+      if(is.null(two.sided.ref)){
+        delta.ref <- median(dat.bs) # Use median of bs sample as "center" or "reference". Sample statistic distance from the median is delta.
+      } else {
+        delta.ref <- two.sided.ref  # Or let user specify "center" or "reference" for the two sided interval
+      }
+      delta.loc <- abs(delta.ref - obs.statistic)
+      asl       <- sum(dat.bs <= (delta.ref - delta.loc))/num.B + sum(dat.bs >= (delta.ref + delta.loc))/num.B
+    }
+
+  } else if(alternative == "less") {
+    # Determine CI:
+    bs.samp.CI <- quantile(dat.bs, probs = c(alpha))
+
+    if(aslQ == T){
+      # Compute ASL:
+      asl <- sum(dat.bs <= obs.statistic)/num.B
+    }
+
+  } else if(alternative == "greater") {
+    # Determine CI:
+    bs.samp.CI <- quantile(dat.bs, probs = c(1-alpha))
+
+    if(aslQ == T){
+      # Compute ASL:
+      asl <- sum(dat.bs >= obs.statistic)/num.B
+    }
+
+  }
+
+  #hist(bs.samp)
+  #points(bs.samp.CI, rep(0, length(bs.samp.CI)), pch=17) # Put in CI
+  # Plot BS histogram with observed sample statistic and CI overlaid on top:
+  if(left.limQ & right.limQ) {
+
+    # Case 1: obs.statistic is within the bounds of the bootstrapped samples
+    hist(dat.bs, main="BS-ed Dist")
+    points(bs.samp.CI, rep(0, length(bs.samp.CI)), pch=17) # Put in CI
+    points(obs.statistic, 0, pch=16, col="red")            # Put in sample statistic
+    if((alternative == "two.sided") & (aslQ == T)) {
+      points(delta.ref, 0, pch=4)
+    }
+
+  } else {
+
+    # Case 2: Delta.hat is somewhere outside the bounds of the bootstrapped samples
+
+    # Determine xlims that show the histogram and Delta.hat. Use 10% wiggle room for a default:
+    if(left.limQ == F) {
+      hist.lims <- c(obs.statistic - xlim.marg * abs(obs.statistic), max(dat.bs))
+    } else if(right.limQ == F) {
+      hist.lims <- c(min(dat.bs), obs.statistic + xlim.marg * abs(obs.statistic))
+    }
+
+    # print("Hisogram xlims:")
+    # print(hist.lims)
+    # print("----------------------------------------")
+    hist(dat.bs, xlim=hist.lims, main="BS-ed Dist")
+    points(bs.samp.CI, rep(0, length(bs.samp.CI)), pch=17) # Put in CI
+    points(obs.statistic, 0, pch=16, col="red")            # Put in sample statistic
+    if((alternative == "two.sided") & (aslQ == T)) {
+      points(delta.ref, 0, pch=4)
+    }
+
+  }
+
+  if(aslQ == T) {
+    print(paste0("Observed Sample Statistic is:  ", obs.statistic))
+    print(paste0("Achieved Significance Level:   ", round(asl,4)*100, "%"))
+    print(paste0("Achieved Confidence:           ", round(1-asl,4)*100, "%"))
+    print(paste0("Reject H0 in favor of Ha?:     ", asl<alpha ))
+  }
+
+}

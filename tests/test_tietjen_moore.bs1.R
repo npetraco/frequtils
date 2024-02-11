@@ -16,9 +16,8 @@ boxplot(x.std, horizontal = T)
 qqnorm(x.std, xlim=c(-3,3), ylim=c(-3,3))
 qqline(x.std)
 
-# Compute sample Tietjen-Moore test statistic:
+# Tietjen-Moore test:
 k       <- 2 # assume two outliers
-Ek.samp <- tmts(x.std, k)
-Ek.samp
-
-tm.parametric.bs.test(x, 2)
+tm.parametric.bs.test(xdat = x, k = k, confidence.level = 0.95)
+tm.parametric.bs.test(xdat = c(1.55,x), k = k, confidence.level = 0.95)
+x
