@@ -307,3 +307,56 @@ bs.plot.with.obs.statistic <- function(dat.bs, obs.statistic, confidence=0.95, a
   }
 
 }
+
+
+#' Convenience wrapper for pairwise t-tests and Wilcoxon tests
+#'
+#' Convenience wrapper for pairwise t-tests and Wilcoxon tests
+#'
+#' @param XX   XXXX
+#' @return The function will XX
+#'
+#'
+#' @export
+pairwise.tests <- function(xvec, glbl, confidence=0.95, significant.onlyQ=F, type=c("t.test","wilcox.test"), p.adjust.method, pool.sd = !paired, paired = FALSE, alternative = "two.sided") {
+
+  if(type=="t.test") {
+    pairwise.res <- pairwise.t.test(xvec, glbl, p.adjust.method, pool.sd, paired, alternative)
+  } else if(type=="wilcox.test") {
+    pairwise.res <- pairwise.wilcox.test(xvec, glbl, p.adjust.method, paired)
+  } else {
+    stop("type must be t.test or wilcox.test!")
+  }
+
+  A.nms    <- rownames(pairwise.res$p.value)
+  B.nms    <- colnames(pairwise.res$p.value)
+  pval.vec <- NULL
+  A.vec    <- NULL
+  B.vec    <- NULL
+  for(i in 1:length(A.nms)) {
+    for(j in 1:length(B.nms)) {
+      if(i >= j) {
+        pval.vec <- c(pval.vec, pairwise.res$p.value[i,j])
+        A.vec    <- c(A.vec, A.nms[i])
+        B.vec    <- c(B.vec, B.nms[j])
+      }
+    }
+  }
+
+  diffQ <- pval.vec < (1-confidence)
+
+  pval.df <- data.frame(A.vec, B.vec, pval.vec, diffQ)
+  colnames(pval.df) <- c("treat.A","treat.B","p.value","differenceQ")
+  if(significant.onlyQ == T) {
+   keep.idxs <- which(diffQ == T)
+   pval.df <- pval.df[keep.idxs,]
+  }
+
+  return(pval.df)
+
+
+}
+
+
+
+

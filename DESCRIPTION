@@ -13,7 +13,8 @@ Imports: remotes (>= 2.4.2.1),
          dafs (>= 1.0),
          outliers (>= 0.15),
          EnvStats (>= 2.8.1),
-         dixonTest (>= 1.0.4)
+         dixonTest (>= 1.0.4),
+         effectsize (>= 0.8.6)
 Depends: extraDistr (>= 1.0.0)
 Encoding: UTF-8
 LazyData: true

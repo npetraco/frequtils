@@ -4,14 +4,19 @@
 \alias{box.cox.transform}
 \title{Convience wrapper for Box-Cox transform}
 \usage{
-box.cox.transform(dat, lambda)
+box.cox.transform(dat, lambda = NULL)
 }
 \arguments{
-\item{XX}{XX}
+\item{dat}{a vector or array of data}
+
+\item{lambda}{chosen box-cox lambda}
 }
 \value{
 The function will XX
 }
 \description{
 Convience wrapper for Box-Cox transform
+}
+\details{
+If no lambda is given (NULL), no transformation is performed.
 }
