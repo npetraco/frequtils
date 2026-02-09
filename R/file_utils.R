@@ -10,7 +10,7 @@
 get.script <- function(script.name, url_head=NULL, download_location=NULL) {
 
   if(is.null(url_head)) {
-    url_head.loc <- "https://raw.githubusercontent.com/npetraco/705/main/R/script_bucket/"
+    url_head.loc <- "https://raw.githubusercontent.com/npetraco/709/refs/heads/main/R/script_bucket/"
   } else {
     url_head.loc <- url_head
   }

@@ -1,6 +1,6 @@
-#' Wraper function to give percentiles of input data with respect to an empirical distribution
+#' Wrapper function to give percentiles of input data with respect to an empirical distribution
 #'
-#' Wraper function to give percentiles of input data with respect to an empirical distribution
+#' Wrapper function to give percentiles of input data with respect to an empirical distribution
 #'
 #' @param XX The XX
 #' @return The function will XX
