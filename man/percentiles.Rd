@@ -2,7 +2,7 @@
 % Please edit documentation in R/descriptive.R
 \name{percentiles}
 \alias{percentiles}
-\title{Wraper function to give percentiles of input data with respect to an empirical distribution}
+\title{Wrapper function to give percentiles of input data with respect to an empirical distribution}
 \usage{
 percentiles(all.dat, quantiles)
 }
@@ -13,5 +13,5 @@ percentiles(all.dat, quantiles)
 The function will XX
 }
 \description{
-Wraper function to give percentiles of input data with respect to an empirical distribution
+Wrapper function to give percentiles of input data with respect to an empirical distribution
 }
