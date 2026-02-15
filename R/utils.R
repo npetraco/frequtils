@@ -21,6 +21,9 @@ update_frequtils <- function() {
   }
 
   print("Updating frequtils")
-  remotes::install_github("npetraco/frequtils", force=TRUE, upgrade = FALSE)
+  remotes::install_github("npetraco/frequtils", force=TRUE, upgrade = "never")
   print("Done updating frequtils!")
+
+  print("Re-load:")
+  library(frequtils)
 }
