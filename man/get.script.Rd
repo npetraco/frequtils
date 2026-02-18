@@ -2,9 +2,12 @@
 % Please edit documentation in R/file_utils.R
 \name{get.script}
 \alias{get.script}
+\alias{get_script}
 \title{Download and load a script file}
 \usage{
 get.script(script.name, url_head = NULL, download_location = NULL)
+
+get_script(script.name, url_head = NULL, download_location = NULL)
 }
 \arguments{
 \item{XX}{XX}

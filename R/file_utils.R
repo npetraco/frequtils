@@ -33,3 +33,8 @@ get.script <- function(script.name, url_head=NULL, download_location=NULL) {
   file.edit(file_loc)
 
 }
+
+
+#' @rdname get.script
+#' @export
+get_script <- get.script

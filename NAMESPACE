@@ -3,6 +3,7 @@
 export(box.cox.transform)
 export(bs.plot.with.obs.statistic)
 export(get.script)
+export(get_script)
 export(grubbs.parametric.bs.test)
 export(one.sample.bs.hyp)
 export(one.sample.bs.hyp.for.mean)
