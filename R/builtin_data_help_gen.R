@@ -506,3 +506,65 @@ shedder.donor.boxplot <- function(shedder.data, location.variable, response.vari
 #' @examples
 #' data(sgr)
 "sgr"
+
+
+#' Fake data generated from from shotgun.df in Curran's dafs
+#'
+#' Simulated square-root area shotgun pellet pattern from data collected by Rowe and Hanson (contained
+#' in James Curran's dafs package). The simulation uses a Bayesian model to obtain posterior distributions
+#' for each distance's mean and sd. Fake data is then obtained using these posterior parameter
+#' distributions with a normal distribution (hence .nsim) to simulate data. 60 fake data points are then
+#' sampled from the simulated dataset (30 Stevens, 30 Remington).
+#'
+#' @docType data
+#'
+#' @usage data(sgr.nsim)
+#'
+#' @keywords datasets
+#'
+#' @references Rowe, W.F. and Hanson, S.R. "Range-of-fire estimates from regression analysis applied to the spreads of shotgun pellet patterns: Results of a blind study", Forensic Sci Int, 28(3-4):239-250, (1985).
+#'
+#' @examples
+#' data(sgr.nsim)
+"sgr.nsim"
+
+
+#' More fake data generated from from shotgun.df in Curran's dafs
+#'
+#' Simulated square-root area shotgun pellet pattern from data collected by Rowe and Hanson (contained
+#' in James Curran's dafs package). The simulation uses a Bayesian model to obtain posterior distributions
+#' for each distance's mean and sd. Fake data is then obtained using these posterior parameter
+#' distributions with a student-T distribution (hence .tsim) to simulate data. 60 fake data points are then
+#' sampled from the simulated dataset (30 Stevens, 30 Remington). Using the student-T as the data's
+#' distribution also adds in more uncertainty. The (fake) data is also drawn from the Bayeisan model's
+#' posterior predictive distribution in this case (unlike in sgr.nsim).
+#'
+#' @docType data
+#'
+#' @usage data(sgr.tsim)
+#'
+#' @keywords datasets
+#'
+#' @references Rowe, W.F. and Hanson, S.R. "Range-of-fire estimates from regression analysis applied to the spreads of shotgun pellet patterns: Results of a blind study", Forensic Sci Int, 28(3-4):239-250, (1985).
+#'
+#' @examples
+#' data(sgr.tsim)
+"sgr.tsim"
+
+
+#' Fake drifting touch DNA data as a function of air temperature and room air flow
+#'
+#' Fake DNA air flow data generated to look reasonable. This data has nice interactions and is useful
+#' for illustrating regression models.
+#'
+#' @docType data
+#'
+#' @usage data(dna_touch_drift)
+#'
+#' @keywords datasets
+#'
+#' @references The R Book
+#'
+#' @examples
+#' data(dna_touch_drift)
+"dna_touch_drift"
