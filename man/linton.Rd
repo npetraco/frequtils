@@ -6,8 +6,12 @@
 \title{Linton Mohammed et al. writer data}
 \format{
 An object of class \code{data.frame} with 44411 rows and 11 columns.
+
+An object of class \code{data.frame} with 44411 rows and 11 columns.
 }
 \usage{
+data(linton)
+
 data(linton)
 }
 \description{
@@ -15,11 +19,19 @@ Data collected by Linton Mohammed et al. on the dynamic character of disguised b
 and stylized signatures. Most of the column headers are self explanatory. Abbreviations for the Condition column:
 GEN = genuine, DNM = free-form disguise, and DWM = five auto-simulations. Subject label prefix: T = text based signature,
 M = mixed signature style, S = stylized signature.
+
+Data collected by Linton Mohammed et al. on the dynamic character of disguised behaviour for text-based, mixed
+and stylized signatures. Most of the column headers are self explanatory. Abbreviations for the Condition column:
+GEN = genuine, DNM = free-form disguise, and DWM = five auto-simulations. Subject label prefix: T = text based signature,
+M = mixed signature style, S = stylized signature.
 }
 \examples{
 data(linton)
+data(linton)
 }
 \references{
+LA Mohammed, B Found, M Caligiuri, D Rogers, "The Dynamic Character of Disguised Behaviour for Text-based, Mixed and Stylized Signatures", J Forensic Sci 56(1),S136-S141 (2011)
+
 LA Mohammed, B Found, M Caligiuri, D Rogers, "The Dynamic Character of Disguised Behaviour for Text-based, Mixed and Stylized Signatures", J Forensic Sci 56(1),S136-S141 (2011)
 }
 \keyword{datasets}

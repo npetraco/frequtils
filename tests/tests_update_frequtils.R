@@ -10,3 +10,6 @@ update_frequtils()
 # Check to see if it worked:
 get.script("dice6.R")
 data(nba)
+
+get_script("hypergeom_ex1.R")
+?get_script

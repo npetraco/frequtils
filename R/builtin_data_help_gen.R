@@ -468,3 +468,41 @@ shedder.donor.boxplot <- function(shedder.data, location.variable, response.vari
 #' @examples
 #' data(gas)
 "gas"
+
+
+#' Linton Mohammed et al. writer data
+#'
+#' Data collected by Linton Mohammed et al. on the dynamic character of disguised behaviour for text-based, mixed
+#' and stylized signatures. Most of the column headers are self explanatory. Abbreviations for the Condition column:
+#' GEN = genuine, DNM = free-form disguise, and DWM = five auto-simulations. Subject label prefix: T = text based signature,
+#' M = mixed signature style, S = stylized signature.
+#'
+#' @docType data
+#'
+#' @usage data(linton)
+#'
+#' @keywords datasets
+#'
+#' @references LA Mohammed, B Found, M Caligiuri, D Rogers, "The Dynamic Character of Disguised Behaviour for Text-based, Mixed and Stylized Signatures", J Forensic Sci 56(1),S136-S141 (2011)
+#'
+#' @examples
+#' data(linton)
+"linton"
+
+
+#' Experimental data from shotgun.df in Curran's dafs
+#'
+#' Reformatted square-root area shotgun pellet pattern data collected by Rowe and Hanson.
+#' Contained in James Curran's dafs package. Experimental (train) data only, cf. data(shotgun.df) in dafs.
+#'
+#' @docType data
+#'
+#' @usage data(sqr)
+#'
+#' @keywords datasets
+#'
+#' @references Rowe, W.F. and Hanson, S.R. "Range-of-fire estimates from regression analysis applied to the spreads of shotgun pellet patterns: Results of a blind study", Forensic Sci Int, 28(3-4):239-250, (1985).
+#'
+#' @examples
+#' data(sgr)
+"sgr"
