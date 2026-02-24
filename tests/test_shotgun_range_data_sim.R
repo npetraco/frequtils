@@ -79,28 +79,47 @@ Xtsim  <- cbind(x.1t, x.2t, x.3t, x.4t, x.5t)
 Xsamp  <- sapply(1:5, function(xx){round(sample(Xsim[,xx], size = num.samps), 2)})
 Xtsamp <- sapply(1:5, function(xx){round(sample(Xtsim[,xx], size = num.samps), 2)})
 
-#Xsamp.steve  <- Xsamp
-#Xtsamp.steve <- Xtsamp
+dim(Xsamp)
+dim(Xtsamp)
+
+# Xsamp.steve  <- Xsamp
+# Xtsamp.steve <- Xtsamp
+# dim(Xsamp.steve)
+# dim(Xtsamp.steve)
+
 
 Xsamp.remington  <- Xsamp
 Xtsamp.remington <- Xtsamp
+dim(Xsamp.remington)
+dim(Xtsamp.remington)
 
+gun.lbl <- gl(n = 2, k = num.samps, labels = c("Stevens", "Remington"))
+gun.lbl
+length(gun.lbl)
 
-
-gun.lbl <- gl(n = 2, k = 2*num.samps, labels = c("Stevens", "Remington"))
 Xsamp.all  <- rbind(Xsamp.steve, Xsamp.remington)
 Xtsamp.all <- rbind(Xtsamp.steve, Xtsamp.remington)
+dim(Xsamp.all)
+dim(Xtsamp.all)
+
 
 sgr.nsim <- data.frame(Xsamp.all, gun.lbl)
 sgr.tsim <- data.frame(Xtsamp.all, gun.lbl)
+dim(sgr.nsim)
+dim(sgr.tsim)
+
 colnames(sgr.nsim)  <- c("X10.ft", "X20.ft", "X30.ft", "X40.ft", "X50.ft", "gun.lbl")
 colnames(sgr.tsim) <- c("X10.ft", "X20.ft", "X30.ft", "X40.ft", "X50.ft", "gun.lbl")
+dim(sgr.nsim)
+dim(sgr.tsim)
+
 
 save(sgr.nsim, file="data/sgr.nsim.RData")
 save(sgr.tsim, file="data/sgr.tsim.RData")
 
 # Check
 data(sgr.nsim)
+dim(sgr.nsim)
 hist(sgr.nsim[1:30,1])
 hist(sgr.nsim[31:60,1])
 
@@ -117,6 +136,7 @@ hist(sgr.nsim[1:30,5])
 hist(sgr.nsim[31:60,5])
 
 data(sgr.tsim)
+dim(sgr.tsim)
 hist(sgr.tsim[1:30,1])
 hist(sgr.tsim[31:60,1])
 
@@ -131,3 +151,4 @@ hist(sgr.tsim[31:60,4])
 
 hist(sgr.tsim[1:30,5])
 hist(sgr.tsim[31:60,5])
+

@@ -5,7 +5,7 @@
 \alias{sgr.tsim}
 \title{More fake data generated from from shotgun.df in Curran's dafs}
 \format{
-An object of class \code{data.frame} with 120 rows and 6 columns.
+An object of class \code{data.frame} with 60 rows and 6 columns.
 }
 \usage{
 data(sgr.tsim)
