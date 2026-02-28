@@ -24,6 +24,11 @@ update_frequtils <- function() {
   remotes::install_github("npetraco/frequtils", force=TRUE, upgrade = "never")
   print("Done updating frequtils!")
 
+  print("****Restarting R, .... hopefully to prevent <.rdb is corrupt> errors****")
+  .rs.restartR()
+
   print("****(RE-)LOADING:  frequtils  ****")
   library(frequtils)
+
+  print("****If you still get <.rdb is corrupt> errors, shut off RStudio and turn it on again.****")
 }
