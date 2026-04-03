@@ -8,7 +8,7 @@
 #'
 #'
 #' @export
-one.sample.bs.hyp.for.mean <- function(dat.samp, mu.null, confidence=0.95, alternative="two.sided", num.B=2000, xlim.marg=0.1) {
+one.sample.bs.hyp.for.mean <- function(dat.samp, mu.null, confidence=0.95, alternative="two.sided", num.B=2000, xlim.marg=0.1, print.type=1) {
 
   # Sample mean
   mu.hat <- mean(dat.samp)
@@ -90,11 +90,35 @@ one.sample.bs.hyp.for.mean <- function(dat.samp, mu.null, confidence=0.95, alter
 
   }
 
-  print(paste0("Assumed (Null) mean is:      ", mu.null))
-  print(paste0("Sample mean is:              ", mu.hat))
-  print(paste0("Achieved Significance Level: ", round(asl,4)*100, "%"))
-  print(paste0("Achieved Confidence:         ", round(1-asl,4)*100, "%"))
-  print(paste0("Reject H0 in favor of Ha?:   ", asl<alpha ))
+  if(!is.null(print.type)){
+    if(print.type==1){
+      print(paste0("Assumed (Null) mean is:      ", mu.null))
+      print(paste0("Sample mean is:              ", mu.hat))
+      print(paste0("Achieved Significance Level: ", round(asl,4)*100, "%"))
+      print(paste0("Achieved Confidence:         ", round(1-asl,4)*100, "%"))
+      print(paste0("Reject H0 in favor of Ha?:   ", asl<alpha ))
+    } else if(print.type==2) {
+      print(paste0("Assumed (Null) mean is:      ", mu.null))
+      print(paste0("Sample mean is:              ", mu.hat))
+      print(paste0("Bootstrap p-value (ASL):     ", asl))
+    } else {
+      warning("print.type allowed values are 1, 2")
+    }
+  }
+
+  # Clean up one-sided CI names a little:
+  if(alternative=="greater"){
+    bs.null.samp.CI <-c(-Inf,bs.null.samp.CI)
+    names(bs.null.samp.CI) <- c("0%",paste0(as.character((1-alpha)*100), "%"))
+  } else if(alternative=="less"){
+    bs.null.samp.CI <-c(bs.null.samp.CI,Inf)
+    names(bs.null.samp.CI) <- c(paste0(as.character(alpha*100), "%"), "100%")
+  }
+
+  bs.test.info.vec <- c(mu.null, mu.hat, asl, bs.null.samp.CI)
+  names(bs.test.info.vec)[1:3] <- c("mu.null", "mu.hat", "asl")
+
+  return(bs.test.info.vec)
 
 }
 
@@ -109,7 +133,7 @@ one.sample.bs.hyp.for.mean <- function(dat.samp, mu.null, confidence=0.95, alter
 #'
 #'
 #' @export
-two.sample.bs.hyp.for.pop.compare <- function(A.samp, B.samp, confidence=0.95, alternative="two.sided", num.B=2000, xlim.marg = 0.1) {
+two.sample.bs.hyp.for.pop.compare <- function(A.samp, B.samp, confidence=0.95, alternative="two.sided", num.B=2000, xlim.marg = 0.1, print.type = 1) {
 
   # Sample sizes
   nn <- length(A.samp)
@@ -128,10 +152,10 @@ two.sample.bs.hyp.for.pop.compare <- function(A.samp, B.samp, confidence=0.95, a
   bs.null.samp <- array(NA, c(num.B))
   for(i in 1:num.B) {
 
-    A.star                <- sample(A.null, size = nn, replace = T)
-    B.star                <- sample(B.null, size = mm, replace = T)
-    Delta.star            <- mean(A.star) - mean(B.star)
-    bs.null.samp[i] <- Delta.star
+    A.star           <- sample(A.null, size = nn, replace = T)
+    B.star           <- sample(B.null, size = mm, replace = T)
+    Delta.star       <- mean(A.star) - mean(B.star)
+    bs.null.samp[i]  <- Delta.star
 
   }
 
@@ -197,12 +221,271 @@ two.sample.bs.hyp.for.pop.compare <- function(A.samp, B.samp, confidence=0.95, a
 
   }
 
-  print(paste0("Sample mean for A is:          ", mu.hat.A))
-  print(paste0("Sample mean for B is:          ", mu.hat.B))
-  print(paste0("Difference of sample means is: ", Delta.hat))
-  print(paste0("Achieved Significance Level:   ", round(asl,4)*100, "%"))
-  print(paste0("Achieved Confidence:           ", round(1-asl,4)*100, "%"))
-  print(paste0("Reject H0 in favor of Ha?:     ", asl<alpha ))
+  if(!is.null(print.type)){
+    if(print.type==1){
+      print(paste0("Sample mean for A is:          ", mu.hat.A))
+      print(paste0("Sample mean for B is:          ", mu.hat.B))
+      print(paste0("Difference of sample means is: ", Delta.hat))
+      print(paste0("Achieved Significance Level:   ", round(asl,4)*100, "%"))
+      print(paste0("Achieved Confidence:           ", round(1-asl,4)*100, "%"))
+      print(paste0("Reject H0 in favor of Ha?:     ", asl<alpha ))
+    } else if(print.type==2){
+      print(paste0("Sample mean for A is:          ", mu.hat.A))
+      print(paste0("Sample mean for B is:          ", mu.hat.B))
+      print(paste0("Difference of sample means is: ", Delta.hat))
+      print(paste0("Bootstrap p-value (ASL):       ", round(asl,4)*100, "%"))
+    } else {
+      warning("print.type allowed values are 1, 2")
+    }
+  }
+
+
+  # Clean up one-sided CI names a little:
+  if(alternative=="greater"){
+    bs.null.samp.CI <-c(-Inf,bs.null.samp.CI)
+    names(bs.null.samp.CI) <- c("0%",paste0(as.character((1-alpha)*100), "%"))
+  } else if(alternative=="less"){
+    bs.null.samp.CI <-c(bs.null.samp.CI,Inf)
+    names(bs.null.samp.CI) <- c(paste0(as.character(alpha*100), "%"), "100%")
+  }
+
+  bs.test.info.vec <- c(0, Delta.hat, asl, bs.null.samp.CI)
+  names(bs.test.info.vec)[1:3] <- c("Delta.null", "Delta.hat", "asl")
+
+  return(bs.test.info.vec)
+
+}
+
+
+#' Two sample Non-Parametric Bootstrap Hypothesis Test to test difference between means.
+#'
+#' Two sample Non-Parametric Bootstrap Hypothesis Test to test difference between means.
+#'
+#' @param A.samp  Sample of data to be non-parametrically bootstrapped
+#' @param B.samp  Sample of data to be non-parametrically bootstrapped
+#' @return The function will XX
+#'
+#'
+#' @export
+two.sample.bs.hyp.for.mean <- function(A.samp, B.samp, confidence=0.95, alternative="two.sided", num.B=2000, xlim.marg = 0.1, print.type = 1) {
+
+  # Sample sizes
+  nn <- length(A.samp)
+  mm <- length(B.samp)
+
+  # Requisite mean estimates
+  mu.hat.AB  <- mean(c(A.samp, B.samp))
+  mu.hat.A   <- mean(A.samp)
+  mu.hat.B   <- mean(B.samp)
+  Delta.hat  <- mu.hat.A - mu.hat.B
+  Deltat.hat <- Delta.hat/sqrt(var(A.samp)/nn + var(B.samp)/mm) # t-statistic for difference between means
+
+  # Shift sample means to be the combined sample mean
+  A.null <- A.samp - mu.hat.A + mu.hat.AB
+  B.null <- B.samp - mu.hat.B + mu.hat.AB
+
+  bs.null.samp <- array(NA, c(num.B))
+  for(i in 1:num.B) {
+
+    A.star           <- sample(A.null, size = nn, replace = T)
+    B.star           <- sample(B.null, size = mm, replace = T)
+    Delta.star       <- mean(A.star) - mean(B.star)
+    var.A.star       <- var(A.star)
+    var.B.star       <- var(B.star)
+    bs.null.samp[i]  <- Delta.star/sqrt(var.A.star/nn + var.B.star/mm) # eq 16.66 Efron and Tibshirani. BS t-statistic for difference between means
+
+  }
+
+  # Set up limits for bs histogram:
+  # If the sample mean falls in the range of the bootstrapped values, we can plot things as normal
+  # If not, this is needed to keep the sample mean AND the null distribution in frame in case they are far apart
+  left.limQ  <- (Deltat.hat > min(bs.null.samp)) # Is the sample mean larger than the smallest bootstrapped value?
+  right.limQ <- (Deltat.hat < max(bs.null.samp)) # Is the sample mean smaller than the largest bootstrapped value?
+
+
+  # Compute CIs at the stipulated level of confidence as well as the ASLs:
+  alpha <- 1 - confidence
+  if(alternative == "two.sided"){
+    # Determine CI:
+    bs.null.samp.CI <- quantile(bs.null.samp, probs = c(alpha/2, 1-alpha/2))
+
+    # Compute ASL:
+    delta.loc <- abs(0 - Deltat.hat) # Distance of mu.null=0 from sample mean. Used for two sided interval
+    asl       <- sum(bs.null.samp <= (0 - delta.loc))/num.B + sum(bs.null.samp >= (0 + delta.loc))/num.B
+
+  } else if(alternative == "less") {
+    # Determine CI:
+    bs.null.samp.CI <- quantile(bs.null.samp, probs = c(alpha))
+
+    # Compute ASL:
+    asl <- sum(bs.null.samp <= Deltat.hat)/num.B
+
+  } else if(alternative == "greater") {
+    # Determine CI:
+    bs.null.samp.CI <- quantile(bs.null.samp, probs = c(1-alpha))
+
+    # Compute ASL:
+    asl <- sum(bs.null.samp >= Deltat.hat)/num.B
+
+  }
+
+  # Plot BS histogram with sample mean and CI overlaid on top:
+  if(left.limQ & right.limQ) {
+
+    # Case 1: Delta.hat is within the bounds of the bootstrapped samples
+    hist(bs.null.samp, main="BS-ed Approx Null Sampling Dist")
+    points(bs.null.samp.CI, rep(0, length(bs.null.samp.CI)), pch=17) # Put in CI
+    points(Deltat.hat, 0, pch=16, col="red")                             # Put in sample statistic
+
+  } else {
+
+    # Case 2: Delta.hat is somewhere outside the bounds of the bootstrapped samples
+
+    # Determine xlims that show the histogram and Delta.hat. Use 10% wiggle room for a default:
+    if(left.limQ == F) {
+      hist.lims <- c(Deltat.hat - xlim.marg * abs(Deltat.hat), max(bs.null.samp))
+    } else if(right.limQ == F) {
+      hist.lims <- c(min(bs.null.samp), Deltat.hat + xlim.marg * abs(Deltat.hat))
+    }
+
+    # print("Hisogram xlims:")
+    # print(hist.lims)
+    # print("----------------------------------------")
+    hist(bs.null.samp, xlim=hist.lims, main="BS-ed Approx Null Sampling Dist")
+    points(bs.null.samp.CI, rep(0, length(bs.null.samp.CI)), pch=17) # Put in CI
+    points(Deltat.hat, 0, pch=16, col="red")                            # Put in sample statistic
+    #print("Delta hat out")
+
+  }
+
+  if(!is.null(print.type)){
+    if(print.type==1){
+      print(paste0("Sample mean for A is:          ", mu.hat.A))
+      print(paste0("Sample mean for B is:          ", mu.hat.B))
+      print(paste0("Delta-t of sample means is:    ", Deltat.hat))
+      print(paste0("Achieved Significance Level:   ", round(asl,4)*100, "%"))
+      print(paste0("Achieved Confidence:           ", round(1-asl,4)*100, "%"))
+      print(paste0("Reject H0 in favor of Ha?:     ", asl<alpha ))
+    } else if(print.type==2){
+      print(paste0("Sample mean for A is:          ", mu.hat.A))
+      print(paste0("Sample mean for B is:          ", mu.hat.B))
+      print(paste0("Delta-t of sample means is:    ", Deltat.hat))
+      print(paste0("Bootstrap p-value (ASL):       ", round(asl,4)*100, "%"))
+    } else {
+      warning("print.type allowed values are 1, 2")
+    }
+  }
+
+
+  # Clean up one-sided CI names a little:
+  if(alternative=="greater"){
+    bs.null.samp.CI <-c(-Inf,bs.null.samp.CI)
+    names(bs.null.samp.CI) <- c("0%",paste0(as.character((1-alpha)*100), "%"))
+  } else if(alternative=="less"){
+    bs.null.samp.CI <-c(bs.null.samp.CI,Inf)
+    names(bs.null.samp.CI) <- c(paste0(as.character(alpha*100), "%"), "100%")
+  }
+
+  bs.test.info.vec <- c(0, Deltat.hat, asl, bs.null.samp.CI)
+  names(bs.test.info.vec)[1:3] <- c("Deltat.null", "Deltat.hat", "asl")
+
+  return(bs.test.info.vec)
+
+}
+
+
+#' Non-Parametric Bootstrap Hypothesis Testing.
+#'
+#' Non-Parametric Bootstrap Hypothesis Testing. Set up to have similar inputs, outputs and function to t.test()
+#'
+#' @param x  Sample of data to be non-parametrically bootstrapped
+#' @param y  Sample of data to be non-parametrically bootstrapped
+#' @return The function will XX
+#'
+#'
+#' @export
+bs.test <- function(x, y = NULL, alternative = c("two.sided", "less", "greater"), mu = 0, conf.level=0.95, paired = FALSE, num.B=2000, xlim.marg=0.1){
+
+  # Cleaner Ha names for output:
+  if(alternative=="two.sided"){
+    alt.phrase <- "not equal to "
+  } else if(alternative=="less") {
+    alt.phrase <- "less than "
+  } else if(alternative=="greater") {
+    alt.phrase <- "greater than "
+  }
+
+  # One sample test
+  if(is.null(y)) {
+    res <- one.sample.bs.hyp.for.mean(dat.samp=x, mu.null=mu, confidence=conf.level, alternative=alternative, num.B=num.B, xlim.marg=xlim.marg, print.type = NULL)
+
+    if(res[3] <= (1-conf.level)){
+      reject.H0Q <- "yes"
+    } else {
+      reject.H0Q <- "no"
+    }
+
+    cat("\n             One sample bootstrap hypothesis test for mean \n\n",
+        "data:  ", deparse(substitute(x))[1], "\n",
+        "mu.null = ", mu, ", (bs)mu.hat = ", res[2], ", (bs)p-value = ", res[3], "\n",
+        "alternative hypothesis: true mean is ", alt.phrase, mu,"\n", sep="",
+        conf.level*100, " percent confidence interval for null:\n",
+        " ", res[4], "     ", res[5],"\n",
+        "Reject H0?:\n",
+        " ", reject.H0Q
+    )
+  } else { # Two sample tests
+    if(paired == T) {
+      if(length(x) == length(y)){
+        dxy <- x-y
+        res <- one.sample.bs.hyp.for.mean(dat.samp=dxy, mu.null=0, confidence=conf.level, alternative=alternative, num.B=num.B, xlim.marg=xlim.marg, print.type = NULL)
+
+        if(res[3] <= (1-conf.level)){
+          reject.H0Q <- "yes"
+        } else {
+          reject.H0Q <- "no"
+        }
+
+        cat("\n             Paired two sample bootstrap hypothesis test for mean \n\n",
+            "data:  ", deparse(substitute(x))[1], " and ",deparse(substitute(y))[1], "\n",
+            "mu.null = ", 0, ", (bs)mu.hat = ", res[2], ", (bs)p-value = ", res[3], "\n",
+            "alternative hypothesis: true mean difference is not equal to 0","\n", sep="",
+            conf.level*100, " percent confidence interval for null:\n",
+            " ", res[4], "     ", res[5],"\n",
+            "Reject H0?:\n",
+            " ", reject.H0Q
+        )
+
+      } else {
+        stop("Samples must be the same length of paired test!")
+      }
+
+    } else {
+      #res <- two.sample.bs.hyp.for.pop.compare(A.samp = x, B.samp = y, confidence=conf.level, alternative=alternative, num.B=num.B, xlim.marg=xlim.marg, print.type = NULL)
+      res <- two.sample.bs.hyp.for.mean(A.samp = x, B.samp = y, confidence=conf.level, alternative=alternative, num.B=num.B, xlim.marg=xlim.marg, print.type = NULL)
+
+      if(res[3] <= (1-conf.level)){
+        reject.H0Q <- "yes"
+      } else {
+        reject.H0Q <- "no"
+      }
+
+      cat("\n             Two Sample bootstrap hypothesis test for population equivalence \n\n",
+          "data:  ", deparse(substitute(x))[1], " and ",deparse(substitute(y))[1], "\n",
+          "Delta.null = ", 0, ", (bs)Delta.hat = ", res[2], ", (bs)p-value = ", res[3], "\n",
+          #"alternative hypothesis: population x is ", alternative, " than population y","\n", sep="",
+          "alternative hypothesis: mean x is ", alt.phrase, "mean y","\n", sep="",
+          conf.level*100, " percent confidence interval for null:\n",
+          " ", res[4], "     ", res[5],"\n",
+          "Reject H0?:\n",
+          " ", reject.H0Q
+      )
+
+    }
+
+  }
+
+  #return(res)
 
 }
 
@@ -358,5 +641,16 @@ pairwise.tests <- function(xvec, glbl, confidence=0.95, significant.onlyQ=F, typ
 }
 
 
+#' XXXX
+#'
+#' XXXX
+#'
+#' @param XX   XXXX
+#' @return The function will XX
+#'
+#'
+#' @export
+hypergeometric.test <- function() {
 
+}
 

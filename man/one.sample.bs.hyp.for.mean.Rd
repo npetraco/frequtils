@@ -10,7 +10,8 @@ one.sample.bs.hyp.for.mean(
   confidence = 0.95,
   alternative = "two.sided",
   num.B = 2000,
-  xlim.marg = 0.1
+  xlim.marg = 0.1,
+  print.type = 1
 )
 }
 \arguments{
